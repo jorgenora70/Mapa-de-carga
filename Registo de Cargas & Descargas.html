@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)file:///C:/Users/jnora/Downloads/Registo%20de%20Cargas%20&%20Descargas%20(2).html -->
+<html lang="pt-PT"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Registo de Cargas &amp; Descargas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Registo de Cargas &amp; Descargas_files/css2" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Base identity: deep navy operations dashboard, matching the
+       reference. This is a deliberate fixed brand (not system-driven),
+       same idea as a control-room display that always renders dark. */
+    --bg: #0A1B2C;
+    --surface: #0F2740;
+    --surface-alt: #12314F;
+    --surface-raised: #163a5c;
+    --border: #1F3E5C;
+    --text: #EEF3F8;
+    --text-muted: #8FA6BE;
+
+    --brand: #2E86DE;
+    --brand-strong: #58A6F0;
+    --brand-soft: #12314F;
+    --accent: #58A6F0;
+
+    --green-600: #34C77C;
+    --green-100: #123528;
+
+    --red-600: #F06A5C;
+    --red-100: #3A1A18;
+
+    --amber-600: #E3A93B;
+    --amber-100: #3A2E14;
+
+    --gray-600: #8FA6BE;
+    --gray-100: #16304A;
+
+    --font-ui: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  /* Explicit light variant, only when the viewer forces light mode */
+  :root[data-theme="light"] {
+    --bg: #F4F7FB;
+    --surface: #FFFFFF;
+    --surface-alt: #EAF0F8;
+    --surface-raised: #E1EAF5;
+    --border: #D3DEEC;
+    --text: #0E2439;
+    --text-muted: #55708C;
+    --brand: #1D5FA8;
+    --brand-strong: #164B87;
+    --brand-soft: #E4EEFA;
+    --accent: #1D5FA8;
+    --green-600: #1F8355;
+    --green-100: #DDF3E7;
+    --red-600: #B8382B;
+    --red-100: #FBE2DE;
+    --amber-600: #9C6A16;
+    --amber-100: #FBEED4;
+    --gray-600: #55708C;
+    --gray-100: #E7EDF5;
+  }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  /* ---------- Header ---------- */
+  header.app-header {
+    background: var(--bg);
+    color: var(--text);
+    padding: 26px 22px 20px;
+    padding-top: calc(26px + env(safe-area-inset-top, 0px));
+    border-bottom: 1px solid var(--border);
+  }
+  .app-header .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .app-header .eyebrow {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--brand-strong);
+    margin-bottom: 8px;
+  }
+  .app-header .title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .app-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    color: #FFFFFF;
+  }
+  :root[data-theme="light"] .app-header h1 { color: var(--text); }
+  .conn-flag {
+    font-size: 11.5px;
+    font-family: var(--font-mono);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+  .conn-flag.local { background: var(--amber-100); border-color: var(--amber-600); color: var(--amber-600); }
+
+  .pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .pill .pill-icon {
+    font-size: 15px;
+    line-height: 1;
+  }
+  .pill b { font-weight: 700; }
+  .pill .pill-label { color: var(--text-muted); }
+
+  /* ---------- Tabs ---------- */
+  nav.tabs {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 22px;
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  nav.tabs button {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-family: var(--font-ui);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 13px 16px 11px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  nav.tabs button.active {
+    color: var(--brand);
+    border-bottom-color: var(--accent);
+  }
+  nav.tabs button:hover:not(.active) { color: var(--text); }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .toolbar input[type="search"],
+  .toolbar select {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .toolbar input[type="search"] { min-width: 200px; flex: 1 1 200px; }
+  .spacer { flex: 1 1 auto; }
+
+  button.btn {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--brand);
+    background: var(--brand);
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button.btn:hover { background: var(--brand-strong); }
+  button.btn.secondary {
+    background: var(--surface);
+    color: var(--brand);
+    border-color: var(--border);
+  }
+  button.btn.secondary:hover { background: var(--surface-alt); }
+  button.btn.danger {
+    background: var(--surface);
+    color: var(--red-600);
+    border-color: var(--red-600);
+  }
+  button.btn.danger:hover { background: var(--red-100); }
+  button.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .stats {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 22px 14px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .stats b { color: var(--text); font-weight: 600; }
+
+  /* ---------- Table ---------- */
+  .table-wrap {
+    max-width: 1400px;
+    margin: 0 auto 40px;
+    padding: 0 22px;
+  }
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1850px;
+  }
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--brand);
+    color: #EAF4F5;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 10px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+    white-space: nowrap;
+    z-index: 2;
+  }
+  thead th:last-child { border-right: none; }
+  tbody td {
+    border-right: 1px solid var(--surface-alt);
+    border-bottom: 1px solid var(--surface-alt);
+    padding: 0;
+    vertical-align: middle;
+  }
+  tbody td:last-child { border-right: none; }
+  tbody tr:nth-child(even) { background: var(--surface-alt); }
+  tbody tr:hover { background: var(--brand-soft); }
+
+  tbody td input,
+  tbody td select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    padding: 9px 10px;
+    outline-offset: -2px;
+  }
+  tbody td input:focus,
+  tbody td select:focus {
+    outline: 2px solid var(--accent);
+    background: var(--surface);
+  }
+  tbody td.num input { font-family: var(--font-mono); text-align: right; }
+  tbody td.mono input { font-family: var(--font-mono); }
+  tbody td.center { text-align: center; }
+  tbody td.embarque-cell input { color: var(--accent); font-weight: 600; }
+
+  .col-actions { width: 40px; text-align: center; }
+  .row-del {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 15px;
+    padding: 6px;
+    border-radius: 3px;
+  }
+  .row-del:hover { color: var(--red-600); background: var(--red-100); }
+
+  select.status-select {
+    font-weight: 600;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .status-Agendado { background: var(--gray-100); color: var(--gray-600); }
+  .status-Em_curso { background: var(--brand-soft); color: var(--brand); }
+  .status-Terminado { background: var(--green-100); color: var(--green-600); }
+  .status-Atrasado { background: var(--red-100); color: var(--red-600); }
+  .status-Cancelado { background: var(--gray-100); color: var(--text-muted); }
+
+  select.tipo-select { font-weight: 600; }
+  .tipo-Carga { color: var(--accent); }
+  .tipo-Descarga { color: var(--brand); }
+
+  .empty-state {
+    padding: 50px 20px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .empty-state .big { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+
+  .history-controls {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 22px 6px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  footer.foot {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 6px 22px calc(30px + env(safe-area-inset-bottom, 0px));
+    color: var(--text-muted);
+    font-size: 11.5px;
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 640px) {
+    .app-header h1 { font-size: 17px; }
+    .toolbar { padding: 12px 14px; }
+    .table-wrap { padding: 0 14px; }
+    nav.tabs { padding: 0 14px; }
+    .stats { padding: 0 14px 12px; }
+    .history-controls { padding: 0 14px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="eyebrow">Registo operacional de embarques</div>
+    <div class="title-row">
+      <h1>Cargas &amp; Descargas</h1>
+      <div id="connFlag" class="conn-flag local">modo local — só neste dispositivo</div>
+    </div>
+    <div class="pill-row" id="pillRow"><div class="pill"><span class="pill-icon">🚢</span><span class="pill-label">Embarques na semana atual:</span> <b>0</b></div></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button id="tabAtualBtn" class="active">Semana atual</button>
+  <button id="tabHistoricoBtn">Histórico</button>
+</nav>
+
+<div class="toolbar">
+  <input type="search" id="searchInput" placeholder="Procurar transitário, emissor, recebedor, embarque, matrícula…">
+  <select id="filterTipo">
+    <option value="">Todos os tipos</option>
+    <option value="Carga">Carga</option>
+    <option value="Descarga">Descarga</option>
+  </select>
+  <select id="filterStatus">
+    <option value="">Todos os estados</option>
+    <option value="Agendado">Agendado</option>
+    <option value="Em curso">Em curso</option>
+    <option value="Terminado">Terminado</option>
+    <option value="Atrasado">Atrasado</option>
+    <option value="Cancelado">Cancelado</option>
+  </select>
+  <div class="spacer"></div>
+  <button class="btn secondary" id="addRowBtn">+ Nova entrada</button>
+  <button class="btn" id="archiveBtn" disabled="">Terminar semana → Histórico</button>
+</div>
+
+<div class="history-controls" id="historyControls" style="display:none;">
+  <label for="weekSelect" style="font-size:12.5px; color:var(--text-muted);">Semana:</label>
+  <select id="weekSelect"></select>
+</div>
+
+<div class="stats" id="statsBar"><span><b>0</b> registo(s)</span></div>
+
+<div class="table-wrap">
+  <div class="table-scroll">
+    <table id="dataTable">
+      <colgroup>
+        <col style="width:40px;">
+        <col style="width:150px;">
+        <col style="width:140px;">
+        <col style="width:140px;">
+        <col style="width:140px;">
+        <col style="width:120px;">
+        <col style="width:90px;">
+        <col style="width:70px;">
+        <col style="width:100px;">
+        <col style="width:200px;">
+        <col style="width:110px;">
+        <col style="width:90px;">
+        <col style="width:80px;">
+        <col style="width:110px;">
+        <col style="width:170px;">
+        <col style="width:100px;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th style="width:40px;"></th>
+          <th>Tipo</th>
+          <th>Transitário</th>
+          <th>Emissor</th>
+          <th>Recebedor</th>
+          <th>Embarque</th>
+          <th>Incoterm</th>
+          <th>Vol.</th>
+          <th>Peso (kg)</th>
+          <th>Local</th>
+          <th>Data</th>
+          <th>Hora prev.</th>
+          <th>Cais</th>
+          <th>Matrícula</th>
+          <th>Estado</th>
+          <th>Ordem cheg.</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <div class="empty-state" id="emptyState" style="display: block;">
+    <div class="big">Sem registos</div>
+    <div>Use "+ Nova entrada" para adicionar uma carga ou descarga.</div>
+  </div>
+</div>
+
+<footer class="foot">Os dados são partilhados com todas as pessoas da organização com acesso a esta página. "Terminar semana" move os registos atuais para o Histórico, agrupados por semana.</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  const STATUS_LIST = ["Agendado", "Em curso", "Terminado", "Atrasado", "Cancelado"];
+  const INCOTERMS = ["EXW","FCA","FAS","FOB","CFR","CIF","CPT","CIP","DAP","DPU","DDP"];
+  const FIELDS = ["tipo","transitario","emissor","recebedor","embarque","incoterm","vol","peso","local","data","horaPrevista","cais","matricula","status","ordemChegada"];
+
+  let db = null;
+  let usingLocal = false;
+  let entries = [];       // active (arquivado === false)
+  let historyEntries = []; // archived (arquivado === true)
+  let currentTab = "atual";
+  let unsubActive = null;
+  let unsubHistory = null;
+
+  const $ = (sel) => document.querySelector(sel);
+  const tableBody = $("#tableBody");
+  const emptyState = $("#emptyState");
+  const connFlag = $("#connFlag");
+  const statsBar = $("#statsBar");
+  const historyControls = $("#historyControls");
+  const weekSelect = $("#weekSelect");
+
+  function slug(s) { return String(s || "").replace(/\s+/g, "_"); }
+
+  function isoWeekLabel(dateStr) {
+    let d = dateStr ? new Date(dateStr + "T00:00:00") : new Date();
+    if (isNaN(d.getTime())) d = new Date();
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = (d.getUTCDay() + 6) % 7;
+    d.setUTCDate(d.getUTCDate() - dayNum + 3);
+    const firstThursday = new Date(Date.UTC(d.getUTCFullYear(), 0, 4));
+    const week = 1 + Math.round(((d - firstThursday) / 86400000 - 3 + ((firstThursday.getUTCDay() + 6) % 7)) / 7);
+    return d.getUTCFullYear() + "-S" + String(week).padStart(2, "0");
+  }
+
+  function fmtPeso(v) {
+    const n = parseFloat(v);
+    if (isNaN(n)) return v || "";
+    return n.toLocaleString("pt-PT", { maximumFractionDigits: 3 });
+  }
+
+  function emptyDoc() {
+    return {
+      tipo: "Carga", transitario: "", emissor: "", recebedor: "", embarque: "",
+      incoterm: "", vol: "", peso: "", local: "", data: new Date().toISOString().slice(0,10),
+      horaPrevista: "", cais: "", matricula: "", status: "Agendado", ordemChegada: "",
+      arquivado: false, semana: null, criadoEm: Date.now()
+    };
+  }
+
+  // ---------- storage layer (db capability, fallback to localStorage) ----------
+
+  function localLoad() {
+    try {
+      const raw = localStorage.getItem("cargas_descargas_v1");
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function localSave(all) {
+    try { localStorage.setItem("cargas_descargas_v1", JSON.stringify(all)); } catch (e) {}
+  }
+  let localAll = [];
+
+  function localRefresh() {
+    entries = localAll.filter(e => !e.arquivado);
+    historyEntries = localAll.filter(e => e.arquivado);
+    render();
+  }
+
+  async function initStorage() {
+    try {
+      if (window.claude && typeof window.claude.use === "function") {
+        db = await window.claude.use("db");
+      }
+    } catch (e) { db = null; }
+
+    if (!db) {
+      usingLocal = true;
+      connFlag.textContent = "modo local — só neste dispositivo";
+      connFlag.classList.add("local");
+      localAll = localLoad();
+      localRefresh();
+      return;
+    }
+
+    connFlag.textContent = "ligado — dados partilhados";
+
+    unsubActive = db.collection("registos")
+      .where("arquivado", "==", false)
+      .onSnapshot(
+        (snap) => {
+          entries = snap.docs.map(d => ({ id: d.id, ...d.data }));
+          entries.sort((a, b) => (a.data || "").localeCompare(b.data || "") || (a.criadoEm||0) - (b.criadoEm||0));
+          render();
+        },
+        (err) => {
+          console.error("db active error", err);
+          connFlag.textContent = "erro de ligação — " + err.code;
+        }
+      );
+
+    unsubHistory = db.collection("registos")
+      .where("arquivado", "==", true)
+      .onSnapshot(
+        (snap) => {
+          historyEntries = snap.docs.map(d => ({ id: d.id, ...d.data }));
+          historyEntries.sort((a, b) => (b.semana || "").localeCompare(a.semana || "") || (a.data||"").localeCompare(b.data||""));
+          render();
+        },
+        (err) => { console.error("db history error", err); }
+      );
+  }
+
+  async function addEntry() {
+    const doc = emptyDoc();
+    if (usingLocal) {
+      doc.id = "loc_" + Math.random().toString(36).slice(2, 10);
+      localAll.push(doc);
+      localSave(localAll);
+      localRefresh();
+      return;
+    }
+    try {
+      await db.collection("registos").add(doc);
+    } catch (e) {
+      console.error("add failed", e);
+      alert("Não foi possível criar a entrada (" + e.code + ").");
+    }
+  }
+
+  async function updateField(id, field, value) {
+    if (usingLocal) {
+      const row = localAll.find(e => e.id === id);
+      if (row) { row[field] = value; localSave(localAll); }
+      return;
+    }
+    try {
+      await db.doc("registos/" + id).update({ [field]: value });
+    } catch (e) {
+      console.error("update failed", e);
+    }
+  }
+
+  async function deleteEntry(id) {
+    if (!confirm("Eliminar este registo? Esta ação não pode ser desfeita.")) return;
+    if (usingLocal) {
+      localAll = localAll.filter(e => e.id !== id);
+      localSave(localAll);
+      localRefresh();
+      return;
+    }
+    try {
+      await db.doc("registos/" + id).delete();
+    } catch (e) {
+      console.error("delete failed", e);
+    }
+  }
+
+  async function archiveWeek() {
+    const visible = getFilteredActive();
+    if (visible.length === 0) {
+      alert("Não há registos na semana atual para arquivar.");
+      return;
+    }
+    if (!confirm("Mover " + visible.length + " registo(s) da semana atual para o Histórico?")) return;
+
+    if (usingLocal) {
+      visible.forEach(row => {
+        const r = localAll.find(e => e.id === row.id);
+        if (r) { r.arquivado = true; r.semana = isoWeekLabel(r.data); }
+      });
+      localSave(localAll);
+      localRefresh();
+      switchTab("historico");
+      return;
+    }
+    try {
+      await Promise.all(visible.map(row =>
+        db.doc("registos/" + row.id).update({ arquivado: true, semana: isoWeekLabel(row.data) })
+      ));
+      switchTab("historico");
+    } catch (e) {
+      console.error("archive failed", e);
+      alert("Ocorreu um erro ao arquivar a semana.");
+    }
+  }
+
+  // ---------- filtering ----------
+
+  function matchesFilters(row) {
+    const q = $("#searchInput").value.trim().toLowerCase();
+    const tipo = $("#filterTipo").value;
+    const status = $("#filterStatus").value;
+    if (tipo && row.tipo !== tipo) return false;
+    if (status && row.status !== status) return false;
+    if (q) {
+      const hay = [row.transitario, row.emissor, row.recebedor, row.embarque, row.matricula, row.local]
+        .join(" ").toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function getFilteredActive() { return entries.filter(matchesFilters); }
+  function getFilteredHistory() {
+    const wk = weekSelect.value;
+    return historyEntries.filter(r => (!wk || r.semana === wk) && matchesFilters(r));
+  }
+
+  // ---------- rendering ----------
+
+  function statusClass(s) { return "status-" + slug(s || "Agendado"); }
+  function tipoClass(t) { return "tipo-" + slug(t || "Carga"); }
+
+  function rowHtml(row, readonlyish) {
+    const id = row.id;
+    const opt = (list, val) => list.map(o => `<option value="${o}" ${o===val?"selected":""}>${o}</option>`).join("");
+    return `
+      <tr data-id="${id}">
+        <td class="col-actions"><button class="row-del" title="Eliminar" data-action="del">✕</button></td>
+        <td><select class="tipo-select ${tipoClass(row.tipo)}" data-field="tipo">
+              <option value="Carga" ${row.tipo==="Carga"?"selected":""}>Carga</option>
+              <option value="Descarga" ${row.tipo==="Descarga"?"selected":""}>Descarga</option>
+            </select></td>
+        <td><input data-field="transitario" value="${esc(row.transitario)}" placeholder="—"></td>
+        <td><input data-field="emissor" value="${esc(row.emissor)}" placeholder="—"></td>
+        <td><input data-field="recebedor" value="${esc(row.recebedor)}" placeholder="—"></td>
+        <td class="mono embarque-cell"><input data-field="embarque" value="${esc(row.embarque)}" placeholder="—"></td>
+        <td><select data-field="incoterm"><option value="">—</option>${opt(INCOTERMS, row.incoterm)}</select></td>
+        <td class="num"><input data-field="vol" type="number" min="0" step="1" value="${esc(row.vol)}"></td>
+        <td class="num"><input data-field="peso" type="text" inputmode="decimal" value="${esc(row.peso)}" placeholder="kg"></td>
+        <td><input data-field="local" value="${esc(row.local)}" placeholder="—"></td>
+        <td class="mono"><input data-field="data" type="date" value="${esc(row.data)}"></td>
+        <td class="mono center"><input data-field="horaPrevista" type="time" value="${esc(row.horaPrevista)}"></td>
+        <td class="mono"><input data-field="cais" value="${esc(row.cais)}" placeholder="—"></td>
+        <td class="mono"><input data-field="matricula" value="${esc(row.matricula)}" placeholder="—"></td>
+        <td><select class="status-select ${statusClass(row.status)}" data-field="status">${opt(STATUS_LIST, row.status)}</select></td>
+        <td class="mono center"><input data-field="ordemChegada" value="${esc(row.ordemChegada)}" placeholder="—"></td>
+      </tr>`;
+  }
+
+  function esc(v) {
+    if (v === undefined || v === null) return "";
+    return String(v).replace(/"/g, "&quot;");
+  }
+
+  function renderStats(list) {
+    const total = list.length;
+    const byStatus = {};
+    STATUS_LIST.forEach(s => byStatus[s] = 0);
+    list.forEach(r => { byStatus[r.status] = (byStatus[r.status] || 0) + 1; });
+    statsBar.innerHTML = `<span><b>${total}</b> registo(s)</span>` +
+      STATUS_LIST.filter(s => byStatus[s] > 0).map(s => `<span>${s}: <b>${byStatus[s]}</b></span>`).join("");
+  }
+
+  function renderPills(list) {
+    const pillRow = $("#pillRow");
+    const total = list.length;
+    const incoterms = Array.from(new Set(list.map(r => r.incoterm).filter(Boolean)));
+    const locais = Array.from(new Set(list.map(r => r.local).filter(Boolean)));
+    const label = currentTab === "atual" ? "Embarques na semana atual" : "Embarques no histórico";
+
+    const parts = [
+      `<div class="pill"><span class="pill-icon">🚢</span><span class="pill-label">${label}:</span> <b>${total}</b></div>`
+    ];
+    if (incoterms.length) {
+      const txt = incoterms.length <= 3 ? incoterms.join(", ") : incoterms.slice(0,3).join(", ") + " +" + (incoterms.length - 3);
+      parts.push(`<div class="pill"><span class="pill-icon">📄</span><span class="pill-label">Incoterm:</span> <b>${txt}</b></div>`);
+    }
+    if (locais.length) {
+      const txt = locais.length <= 3 ? locais.join(", ") : locais.slice(0,3).join(", ") + " +" + (locais.length - 3);
+      parts.push(`<div class="pill"><span class="pill-icon">📍</span><span class="pill-label">Locais:</span> <b>${txt}</b></div>`);
+    }
+    pillRow.innerHTML = parts.join("");
+  }
+
+  function populateWeekSelect() {
+    const weeks = Array.from(new Set(historyEntries.map(r => r.semana).filter(Boolean))).sort().reverse();
+    const current = weekSelect.value;
+    weekSelect.innerHTML = `<option value="">Todas as semanas</option>` +
+      weeks.map(w => `<option value="${w}">${w}</option>`).join("");
+    if (weeks.includes(current)) weekSelect.value = current;
+  }
+
+  function render() {
+    if (currentTab === "atual") {
+      const list = getFilteredActive();
+      tableBody.innerHTML = list.map(r => rowHtml(r, false)).join("");
+      emptyState.style.display = list.length ? "none" : "block";
+      renderStats(list);
+      renderPills(list);
+      historyControls.style.display = "none";
+      $("#archiveBtn").disabled = entries.length === 0;
+    } else {
+      populateWeekSelect();
+      const list = getFilteredHistory();
+      tableBody.innerHTML = list.map(r => rowHtml(r, true)).join("");
+      emptyState.style.display = list.length ? "none" : "block";
+      renderStats(list);
+      renderPills(list);
+      historyControls.style.display = "flex";
+      $("#archiveBtn").disabled = true;
+    }
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    $("#tabAtualBtn").classList.toggle("active", tab === "atual");
+    $("#tabHistoricoBtn").classList.toggle("active", tab === "historico");
+    $("#addRowBtn").style.display = tab === "atual" ? "inline-block" : "none";
+    render();
+  }
+
+  // ---------- events ----------
+
+  tableBody.addEventListener("change", (e) => {
+    const el = e.target;
+    const field = el.getAttribute("data-field");
+    if (!field) return;
+    const tr = el.closest("tr");
+    const id = tr.getAttribute("data-id");
+    let value = el.value;
+    updateField(id, field, value);
+    if (field === "status") { el.className = "status-select " + statusClass(value); renderStats(currentTab === "atual" ? getFilteredActive() : getFilteredHistory()); }
+    if (field === "tipo") { el.className = "tipo-select " + tipoClass(value); }
+  });
+
+  tableBody.addEventListener("blur", (e) => {
+    const el = e.target;
+    if (el.tagName !== "INPUT") return;
+    const field = el.getAttribute("data-field");
+    if (!field) return;
+    const tr = el.closest("tr");
+    const id = tr.getAttribute("data-id");
+    updateField(id, field, el.value);
+  }, true);
+
+  tableBody.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action='del']");
+    if (!btn) return;
+    const tr = btn.closest("tr");
+    deleteEntry(tr.getAttribute("data-id"));
+  });
+
+  $("#tabAtualBtn").addEventListener("click", () => switchTab("atual"));
+  $("#tabHistoricoBtn").addEventListener("click", () => switchTab("historico"));
+  $("#addRowBtn").addEventListener("click", addEntry);
+  $("#archiveBtn").addEventListener("click", archiveWeek);
+  $("#searchInput").addEventListener("input", render);
+  $("#filterTipo").addEventListener("change", render);
+  $("#filterStatus").addEventListener("change", render);
+  weekSelect.addEventListener("change", render);
+
+  initStorage();
+})();
+</script>
+
+
+</body></html>
